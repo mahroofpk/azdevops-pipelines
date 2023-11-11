@@ -25,6 +25,7 @@ stages:
             displayName: unit tests backend
   
   - stage: DeployDev
+    dependsOn: []
     displayName: Deploy to DEV environment
     jobs:
       - job: DeployFrontendDev
@@ -38,10 +39,12 @@ stages:
         steps:
           - script: echo deploying backend app to DEV
             displayName: deploy backend app to DEV
+            
   - stage: DeployProd
+    dependsOn: []
     displayName: Deploy to PROD environment
     pool:
-      vmImage: 'windows-latets'
+      vmImage: 'windows-latest'
     jobs:
     - job: DeployFrontendProd
       displayName: Deploy frontend to PROD
