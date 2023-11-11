@@ -1,0 +1,39 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - docker-build-push.yml
+    exclude:
+    - Readme.md
+
+variables:
+  IMAGE_NAME: mahroofpk/album-backend-api
+  CONTAINERAPPS_APP: album-backend-api
+  CONTAINERAPPS_ENVIRONMENT: aca-environment
+  RESOURCE_GROUP: rg-containerapps-azure-pipelines
+  TAG: '$(Build.BuildId)'
+
+stages:
+  - stage: build
+    displayName: Build and push image
+    jobs:
+      - job: Build
+        displayName: Build
+        pool: 
+          vmImage: ubuntu-latest
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'docker-connection'
+              repository: '$(IMAGE_NAME)'
+              command: 'buildAndPush'
+              Dockerfile: '$(Build.SourcesDirectory)/backend_api/backend_api_csharp/Dockerfile'
+              tags: '$(TAG)'
+
