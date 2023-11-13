@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: my-bare-variable
+    value: "value of my bare variable"
+  - group: my-variable-group
+  - name: my-passed-variable
+    value: $[variables.myvariable]
+    
+
+steps:
+  - script: echo $(my-bare-variable)
+  - script: echo $(myvariable)
+
+
